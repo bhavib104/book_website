@@ -1,5 +1,6 @@
 import DomeGallerySection from "../components/landing/DomeGallerySection";
 import AuthorSection from "../components/about/AuthorSection";
+import CategorySection from "../components/books/CategorySection";
 
 function Home() {
   return (
@@ -9,9 +10,7 @@ function Home() {
 
       <AuthorSection />
 
-      <section>
-        Categories
-      </section>
+      <CategorySection />
 
       <section>
         Achievements
@@ -24,3 +23,5 @@ function Home() {
     </div>
   );
 }
+
+export default Home;
