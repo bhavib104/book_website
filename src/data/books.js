@@ -16,7 +16,7 @@ export const books = [
   {
     id: 3,
     title: "River of Dreams",
-    category: "Novel",
+    category: "Novels",
     cover: "/images/book3.jpg",
     amazon: "https://amazon.in"
   }

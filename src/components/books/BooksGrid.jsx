@@ -1,70 +1,25 @@
 import { books } from "../../data/books";
-import { Link } from "react-router-dom";
+import GlassIcons from "./GlassIcons";
 
 function BooksGrid({ category }) {
 
-  // filter books based on category
   const filteredBooks = books.filter(
     (book) => book.category === category
   );
 
+  const items = filteredBooks.map((book) => ({
+    icon: book.cover,
+    title: book.title,
+    url: `/book/${book.id}`
+  }));
+
   return (
-    <section
-      style={{
-        padding: "80px 40px",
-        textAlign: "center"
-      }}
-    >
+    <section style={{ padding: "100px 40px" }}>
 
-      <h2>{category} Books</h2>
+      <h2 style={{ textAlign: "center" }}>{category} Books</h2>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "40px",
-          marginTop: "40px",
-          flexWrap: "wrap"
-        }}
-      >
-
-        {filteredBooks.map((book) => (
-
-          <Link
-            key={book.id}
-            to={`/book/${book.id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-
-            <div
-              style={{
-                width: "180px",
-                border: "1px solid #ccc",
-                borderRadius: "12px",
-                padding: "20px",
-                cursor: "pointer"
-              }}
-            >
-
-              <img
-                src={book.cover}
-                alt={book.title}
-                style={{
-                  width: "100%",
-                  borderRadius: "8px"
-                }}
-              />
-
-              <p style={{ marginTop: "10px" }}>
-                {book.title}
-              </p>
-
-            </div>
-
-          </Link>
-
-        ))}
-
+      <div style={{ height: "500px", position: "relative" }}>
+        <GlassIcons items={items} />
       </div>
 
     </section>

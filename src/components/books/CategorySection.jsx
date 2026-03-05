@@ -1,50 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ChromaGrid from "./ChromaGrid";
 import BooksGrid from "./BooksGrid";
 
 function CategorySection() {
 
-  const categories = [
-    { name: "Poetry", color: "#ff6b6b" },
-    { name: "Novel", color: "#6b8cff" },
-    { name: "Short Stories", color: "#6bffb5" },
-    { name: "Children Books", color: "#ffd66b" }
-  ];
-
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  useEffect(() => {
+    const handler = (e) => setSelectedCategory(e.detail);
+
+    window.addEventListener("categorySelect", handler);
+
+    return () => window.removeEventListener("categorySelect", handler);
+  }, []);
+
+  const items = [
+    {
+      image: "/images/poetry.jpg",
+      title: "Poetry",
+      subtitle: "Poetry Books",
+      borderColor: "#ff6b6b",
+      gradient: "linear-gradient(145deg,#ff6b6b,#000)",
+      url: "#"
+    },
+    {
+      image: "/images/novel.jpg",
+      title: "Novels",
+      subtitle: "Fiction Stories",
+      borderColor: "#4ecdc4",
+      gradient: "linear-gradient(145deg,#4ecdc4,#000)",
+      url: "#"
+    },
+    {
+      image: "/images/stories.jpg",
+      title: "Short Stories",
+      subtitle: "Story Collection",
+      borderColor: "#ffe66d",
+      gradient: "linear-gradient(145deg,#ffe66d,#000)",
+      url: "#"
+    }
+  ];
+
   return (
-    <section style={{ padding: "100px 40px", textAlign: "center" }}>
+    <section style={{ padding: "120px 40px", textAlign: "center" }}>
 
       <h2>Book Categories</h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "30px",
-          marginTop: "40px"
-        }}
-      >
-
-        {categories.map((category) => (
-
-          <div
-            key={category.name}
-            onClick={() => setSelectedCategory(category.name)}
-            style={{
-              background: category.color,
-              padding: "60px 20px",
-              borderRadius: "20px",
-              cursor: "pointer",
-              fontWeight: "bold",
-              fontSize: "18px"
-            }}
-          >
-            {category.name}
-          </div>
-
-        ))}
-
+      <div style={{ height: "600px", position: "relative" }}>
+        <ChromaGrid
+          items={items.map(item => ({
+            ...item,
+            url: null
+          }))}
+        />
       </div>
 
       {selectedCategory && (

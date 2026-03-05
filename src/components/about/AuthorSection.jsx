@@ -1,3 +1,5 @@
+import ProfileCard from "./ProfileCard";
+
 function AuthorSection() {
   return (
     <section
@@ -5,18 +7,22 @@ function AuthorSection() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: "60px",
-        padding: "100px 40px"
+        gap: "80px",
+        padding: "120px 40px",
+        flexWrap: "wrap"
       }}
     >
-      {/* Profile Card Placeholder */}
-      <div
-        style={{
-          width: "250px",
-          height: "320px",
-          background: "#ddd",
-          borderRadius: "20px"
-        }}
+      {/* Profile Card */}
+      <ProfileCard
+        name="Your Mom's Name"
+        title="Author | Poet | Story Writer"
+        handle="authorlife"
+        status="Writing"
+        contactText="Follow"
+        avatarUrl="/images/mom.jpg"
+        showUserInfo={false}
+        enableTilt={true}
+        behindGlowEnabled
       />
 
       {/* About Text */}
@@ -25,13 +31,13 @@ function AuthorSection() {
 
         <p>
           My mother is a passionate writer who expresses emotions through
-          poetry, stories, and novels. Her words explore life, feelings,
-          relationships, and imagination.
+          poetry, stories, and novels. Her writing explores the beauty of
+          life, human emotions, and imagination.
         </p>
 
         <p>
-          Through her writing journey she has inspired readers and continues
-          to create meaningful literary work.
+          Through her books she inspires readers with meaningful storytelling
+          and heartfelt poetry.
         </p>
       </div>
     </section>
