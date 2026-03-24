@@ -31,7 +31,7 @@ const DEFAULT_IMAGES = [
 ];
 
 const DEFAULTS = {
-  maxVerticalRotationDeg: 15, 
+  maxVerticalRotationDeg: 35, 
   dragSensitivity: 20,
   enlargeTransitionMs: 300,
   segments: 35
@@ -51,8 +51,8 @@ const getDataNumber = (el, name, fallback) => {
 
 function buildItems(pool, seg) {
   const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
-  const evenYs = [-4, -2, 0, 2, 4];
-  const oddYs = [-3, -1, 1, 3, 5];
+  const evenYs = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+  const oddYs = [-7, -5, -3, -1, 1, 3, 5, 7, 9];
 
   const coords = xCols.flatMap((x, c) => {
     const ys = c % 2 === 0 ? evenYs : oddYs;
