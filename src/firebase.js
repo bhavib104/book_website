@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // NOTE: Replace these with your own Firebase Project settings from the Firebase Console
 const firebaseConfig = {
-  apiKey: "AIzaSyCldQ_Ijd69IjugJhFnAwW0c7Qt3QC9FuA",
-  authDomain: "authorportfolio-3b742.firebaseapp.com",
-  projectId: "authorportfolio-3b742",
-  storageBucket: "authorportfolio-3b742.firebasestorage.app",
-  messagingSenderId: "627261842397",
-  appId: "1:627261842397:web:514cd2bd52154f38604c34",
-  measurementId: "G-C07W6WXBCS"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -20,7 +20,7 @@ let auth;
 let db;
 let googleProvider;
 
-const isConfigValid = firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY";
+const isConfigValid = import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_FIREBASE_API_KEY !== "YOUR_API_KEY";
 
 if (isConfigValid) {
   try {

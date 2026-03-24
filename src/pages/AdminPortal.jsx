@@ -12,10 +12,9 @@ function AdminPortal() {
   const navigate = useNavigate();
 
   // 🔒 RESTRICTED PORTAL: Only the author's email can enter
-  // ACTION REQUIRED: Replace this email with your real Gmail address!
-  const AUTHOR_EMAIL = "bhavib104@gmail.com"; 
+  const AUTHOR_EMAIL = import.meta.env.VITE_AUTHOR_EMAIL; 
 
-  const isAuthorized = user?.email === AUTHOR_EMAIL;
+  const isAuthorized = user && AUTHOR_EMAIL && user.email === AUTHOR_EMAIL;
 
   useEffect(() => {
     if (!isAuthorized) return;
