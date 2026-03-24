@@ -64,13 +64,27 @@ main.sphere-main {
 }
 
 .overlay {
-  background-image: radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, #f5e9c9) 100%);
+  background-image: radial-gradient(rgba(235, 235, 235, 0) 75%, var(--overlay-blur-color, #f5e9c9) 100%);
 }
 
 .overlay--blur {
-  -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #f5e9c9) 90%);
-  mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #f5e9c9) 90%);
-  backdrop-filter: blur(3px);
+  -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 80%, var(--overlay-blur-color, #f5e9c9) 100%);
+  mask-image: radial-gradient(rgba(235, 235, 235, 0) 80%, var(--overlay-blur-color, #f5e9c9) 100%);
+  backdrop-filter: blur(2px);
+}
+
+/* Central "core" glow for the whole earth feel */
+.sphere::before {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(184, 150, 12, 0.2) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(20px);
+  pointer-events: none;
 }
 
 .item {

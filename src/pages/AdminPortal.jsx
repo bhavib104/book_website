@@ -11,11 +11,15 @@ function AdminPortal() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Basic security check: You might want to restrict this to a specific email
-  // const AUTHOR_EMAIL = "your-email@gmail.com";
-  // if (user?.email !== AUTHOR_EMAIL) return <Unauthorized />;
+  // 🔒 RESTRICTED PORTAL: Only the author's email can enter
+  // ACTION REQUIRED: Replace this email with your real Gmail address!
+  const AUTHOR_EMAIL = "bhavib104@gmail.com"; 
+
+  const isAuthorized = user?.email === AUTHOR_EMAIL;
 
   useEffect(() => {
+    if (!isAuthorized) return;
+
     const fetchData = async () => {
       try {
         const vQuery = query(collection(db, "visitors"), orderBy("timestamp", "desc"));
@@ -33,12 +37,40 @@ function AdminPortal() {
       }
     };
     fetchData();
-  }, []);
+  }, [isAuthorized]);
 
   const handleLogout = async () => {
     await logout();
     navigate("/");
   };
+
+  if (!isAuthorized) {
+    return (
+      <div style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#fdf6e3",
+        textAlign: "center",
+        padding: "20px"
+      }}>
+        <h1 className="gold-foil-text" style={{ fontFamily: "'Playfair Display', serif", fontSize: "3rem", marginBottom: "20px" }}>
+          Private Archive
+        </h1>
+        <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "1.2rem", maxWidth: "400px", color: "#4a2e1a" }}>
+          You have reached a restricted collection. Only the curator of this library has access to these logs.
+        </p>
+        <button 
+          onClick={() => navigate("/")}
+          style={{ marginTop: "40px", padding: "10px 30px", background: "transparent", border: "1px solid #b8960c", cursor: "pointer" }}
+        >
+          Return to Library
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{

@@ -44,14 +44,11 @@ function FooterDock() {
       <div style={{ 
         marginTop: "60px", 
         display: "flex", 
-        gap: "30px", 
+        justifyContent: "center",
         fontFamily: "'EB Garamond', serif",
         fontSize: "1rem",
         opacity: 0.6
       }}>
-        <Link to="/admin" style={{ color: "#1a0e06", textDecoration: "none", borderBottom: "1px solid #1a0e06" }}>
-          Admin Portal
-        </Link>
         <button 
           onClick={handleLogout}
           style={{ 
