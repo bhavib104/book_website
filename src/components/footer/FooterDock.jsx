@@ -8,10 +8,10 @@ function FooterDock() {
   const navigate = useNavigate();
 
   const items = [
-    { icon: <img src="/icons/instagram.png" alt="Instagram" />, link: "https://instagram.com", label: "Instagram" },
-    { icon: <img src="/icons/amazon.png" alt="Amazon" />, link: "https://amazon.com", label: "Amazon" },
-    { icon: <img src="/icons/email.png" alt="Email" />, link: "mailto:author@email.com", label: "Email" },
-    { icon: <img src="/icons/linkedin.png" alt="LinkedIn" />, link: "https://linkedin.com", label: "LinkedIn" }
+    { icon: <img src="/icons/instagram.png" alt="Instagram" />, link: import.meta.env.VITE_INSTAGRAM_URL || "https://instagram.com", label: "Instagram" },
+    { icon: <img src="/icons/amazon.png" alt="Amazon" />, link: import.meta.env.VITE_AMAZON_AUTHOR_URL || "https://amazon.com", label: "Amazon" },
+    { icon: <img src="/icons/email.png" alt="Email" />, link: `mailto:${import.meta.env.VITE_AUTHOR_EMAIL || 'author@email.com'}`, label: "Email" },
+    { icon: <img src="/icons/linkedin.png" alt="LinkedIn" />, link: import.meta.env.VITE_LINKEDIN_URL || "https://linkedin.com", label: "LinkedIn" }
   ];
 
   const handleLogout = async () => {

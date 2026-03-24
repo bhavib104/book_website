@@ -62,7 +62,7 @@ function FloatingPen() {
 
   return (
     <>
-      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 9998 }}>
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 10010 }}>
         <AnimatePresence>
           {trail.map((point) => (
             <motion.div
@@ -91,7 +91,7 @@ function FloatingPen() {
           position: "fixed",
           top: 0,
           left: 0,
-          zIndex: 9999,
+          zIndex: 10011,
           pointerEvents: "none",
           opacity,
           x: springX,
