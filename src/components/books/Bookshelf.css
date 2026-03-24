@@ -1,0 +1,173 @@
+/* ═══════════════════════════════════════
+   VINTAGE BOOKSHELF
+═══════════════════════════════════════ */
+
+.bookshelf-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The shelf board */
+.shelf-board {
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(to bottom, #7a5c3e, #4a2e1a);
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 
+    inset 0 2px 4px rgba(255,255,255,0.1),
+    0 15px 30px rgba(0,0,0,0.6),
+    0 5px 10px rgba(44,26,14,0.8);
+  margin-top: -2px; /* Pull it tight against the bottom of the books */
+  z-index: 5;
+}
+
+/* Shelf edge highlight */
+.shelf-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255,220,150,0.2);
+}
+
+/* The books container */
+.books-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px; /* Slight gaps between books */
+  height: 380px; /* Room for books to pull out upward */
+  padding-bottom: 2px;
+  z-index: 10;
+  position: relative;
+}
+
+/* Base style for a Book Spine */
+.book-spine {
+  position: relative;
+  width: clamp(60px, 8vw, 90px);
+  height: clamp(260px, 40vw, 340px);
+  border-radius: 8px 3px 3px 8px; /* Slightly rounded spine edge */
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+  transform-style: preserve-3d;
+  box-shadow: 
+    -4px 0 10px rgba(0,0,0,0.4),
+    inset 4px 0 8px rgba(255,255,255,0.15),
+    inset -2px 0 4px rgba(0,0,0,0.4);
+  /* Default dark leather */
+  background: linear-gradient(90deg, #3a2216, #2c1a0e);
+}
+
+/* Vintage Leather Texture Overlay */
+.book-spine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.05) 0px,
+      rgba(0,0,0,0.05) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(circle at 50% 10%, rgba(255,255,255,0.08), transparent 60%);
+  mix-blend-mode: overlay;
+  z-index: 2;
+}
+
+/* Dynamic Spotlight Effect */
+.book-spine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(
+    circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 230, 150, 0.15),
+    transparent 80%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bookshelf-container:hover .book-spine::before {
+  opacity: 1;
+}
+
+/* Gold Ribs/Bands on the spine */
+.spine-ribs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    linear-gradient(to bottom, transparent 15%, rgba(184,150,12,0.6) 15%, transparent 16%, transparent 85%, rgba(184,150,12,0.6) 85%, transparent 86%);
+  z-index: 3;
+}
+
+/* Book Title */
+.spine-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  white-space: nowrap;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f5e9c9;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8), 0 0 8px rgba(184,150,12,0.4);
+  z-index: 5;
+  pointer-events: none; /* Let clicks pass to the book div */
+}
+
+/* Book Subtitle/Icon Area */
+.spine-icon {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #c4a882;
+  font-size: 1.2rem;
+  z-index: 5;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+/* Hover & Active States - "Pulling a book" */
+.book-spine:hover {
+  transform: translateY(-20px) rotate(-1deg);
+  filter: brightness(1.15);
+}
+
+.book-spine.active {
+  transform: translateY(-40px) scale(1.05); /* Pulled out further and slightly bigger */
+  box-shadow: 
+    -10px 15px 25px rgba(0,0,0,0.6),
+    inset 4px 0 8px rgba(255,255,255,0.2),
+    inset -2px 0 4px rgba(0,0,0,0.5);
+  border-bottom: 2px solid rgba(184,150,12,0.4);
+  z-index: 20;
+}
+
+/* Dim non-active books slightly to emphasize the selected one */
+.books-row:has(.book-spine.active) .book-spine:not(.active) {
+  filter: brightness(0.7) saturate(0.8);
+}
+
+/* Varying Heights & Colors via inline React styles, but we can set up generic variants here if needed */

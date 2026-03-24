@@ -2,8 +2,10 @@ import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import './ChromaGrid.css';
 
+
 export const ChromaGrid = ({
   items,
+  onCategoryClick,
   className = '',
   radius = 300,
   columns = 3,
@@ -115,11 +117,6 @@ export const ChromaGrid = ({
     });
   };
 
-  const handleCardClick = url => {
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   const handleCardMove = e => {
     const card = e.currentTarget;
@@ -147,7 +144,8 @@ export const ChromaGrid = ({
           key={i}
           className="chroma-card"
           onMouseMove={handleCardMove}
-          onClick={() => window.dispatchEvent(new CustomEvent("categorySelect", { detail: c.title }))}          style={{
+          onClick={() => onCategoryClick && onCategoryClick(c.title)}
+          style={{
             '--card-border': c.borderColor || 'transparent',
             '--card-gradient': c.gradient,
             cursor: c.url ? 'pointer' : 'default'

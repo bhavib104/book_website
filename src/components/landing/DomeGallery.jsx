@@ -3,10 +3,31 @@ import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
 const DEFAULT_IMAGES = [
-  { src: "/images/book1.jpg", alt: "Poetry Book" },
-  { src: "/images/book2.jpg", alt: "Novel" },
-  { src: "/images/book3.jpg", alt: "Story Book" },
-  { src: "/images/book4.jpg", alt: "Children Book" }
+  {
+    src: 'https://images.unsplash.com/photo-1755331039789-7e5680e26e8f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Abstract art'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1755569309049-98410b94f66d?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Modern sculpture'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1755497595318-7e5e3523854f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Digital artwork'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1755353985163-c2a0fe5ac3d8?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Contemporary art'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1745965976680-d00be7dc0377?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Geometric pattern'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1752588975228-21f44630bb3c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    alt: 'Textured surface'
+  },
+  { src: 'https://pbs.twimg.com/media/Gyla7NnXMAAXSo_?format=jpg&name=large', alt: 'Social media image' }
 ];
 
 const DEFAULTS = {
@@ -86,7 +107,7 @@ function computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments) {
 
 export default function DomeGallery({
   images = DEFAULT_IMAGES,
-  fit = 0.5,
+  fit = 0.65,
   fitBasis = 'auto',
   minRadius = 600,
   maxRadius = Infinity,
@@ -118,6 +139,7 @@ export default function DomeGallery({
   const draggingRef = useRef(false);
   const movedRef = useRef(false);
   const inertiaRAF = useRef(null);
+  const autoRotateRAF = useRef(null);
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
@@ -232,6 +254,39 @@ export default function DomeGallery({
 
   useEffect(() => {
     applyTransform(rotationRef.current.x, rotationRef.current.y);
+
+    // Auto-rotation loop
+    let lastTime = performance.now();
+    const loop = (time) => {
+      const dt = time - lastTime;
+      lastTime = time;
+
+      // Only auto-rotate if not dragging, not in inertia, and not focused/opened
+      if (!draggingRef.current && !inertiaRAF.current && !focusedElRef.current && !openingRef.current) {
+        // approx 1.5 deg per second auto-rotation
+        const speed = 0.0015;
+        const nextY = wrapAngleSigned(rotationRef.current.y - (dt * speed));
+        
+        // very slow wobble on X axis using sine
+        const wobble = Math.sin(time / 2000) * 0.5;
+        const nextX = clamp(
+            rotationRef.current.x + ((wobble - rotationRef.current.x) * 0.05),
+            -maxVerticalRotationDeg, 
+            maxVerticalRotationDeg
+        );
+        
+        rotationRef.current = { x: nextX, y: nextY };
+        applyTransform(nextX, nextY);
+      }
+
+      autoRotateRAF.current = requestAnimationFrame(loop);
+    };
+    
+    autoRotateRAF.current = requestAnimationFrame(loop);
+
+    return () => {
+      if (autoRotateRAF.current) cancelAnimationFrame(autoRotateRAF.current);
+    };
   }, []);
 
   const stopInertia = useCallback(() => {
@@ -584,34 +639,43 @@ export default function DomeGallery({
       <main ref={mainRef} className="sphere-main">
         <div className="stage">
           <div ref={sphereRef} className="sphere">
-            {items.map((it, i) => (
-              <div
-                key={`${it.x},${it.y},${i}`}
-                className="item"
-                data-src={it.src}
-                data-offset-x={it.x}
-                data-offset-y={it.y}
-                data-size-x={it.sizeX}
-                data-size-y={it.sizeY}
-                style={{
-                  ['--offset-x']: it.x,
-                  ['--offset-y']: it.y,
-                  ['--item-size-x']: it.sizeX,
-                  ['--item-size-y']: it.sizeY
-                }}
-              >
-                <div
-                  className="item__image"
-                  role="button"
-                  tabIndex={0}
-                  aria-label={it.alt || 'Open image'}
-                  onClick={onTileClick}
-                  onPointerUp={onTilePointerUp}
-                >
-                  <img src={it.src} draggable={false} alt={it.alt} />
-                </div>
-              </div>
-            ))}
+{items.map((it, i) => {
+  const isCenter = it.x === 0 && it.y === 0;   
+
+  return (
+    <div
+      key={`${it.x},${it.y},${i}`}
+      className="item"
+      data-src={isCenter ? "/logo.png" : it.src}
+      data-offset-x={it.x}
+      data-offset-y={it.y}
+      data-size-x={it.sizeX}
+      data-size-y={it.sizeY}
+      style={{
+        ['--offset-x']: it.x,
+        ['--offset-y']: it.y,
+        ['--item-size-x']: it.sizeX,
+        ['--item-size-y']: it.sizeY
+      }}
+    >
+      <div
+        className="item__image"
+        role="button"
+        tabIndex={0}
+        aria-label={it.alt || 'Open image'}
+        onClick={onTileClick}
+        onPointerUp={onTilePointerUp}
+      >
+        <img
+          src={isCenter ? "/logo.png" : it.src}
+          draggable={false}
+          alt={it.alt}
+          className={isCenter ? "center-logo" : ""}
+        />
+      </div>
+    </div>
+  );
+})}
           </div>
         </div>
 

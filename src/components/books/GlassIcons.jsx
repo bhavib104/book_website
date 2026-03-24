@@ -10,24 +10,23 @@ const gradientMapping = {
 };
 
 const GlassIcons = ({ items, className }) => {
-  const getBackgroundStyle = color => {
-    if (gradientMapping[color]) {
-      return { background: gradientMapping[color] };
-    }
-    return { background: color };
-  };
-
   return (
     <div className={`icon-btns ${className || ''}`}>
       {items.map((item, index) => (
-        <button key={index} className={`icon-btn ${item.customClass || ''}`} aria-label={item.label} type="button">
-          <span className="icon-btn__back" style={getBackgroundStyle(item.color)}></span>
+        <button 
+          key={item.id || index} 
+          className={`icon-btn ${item.customClass || ''}`} 
+          aria-label={`View ${item.title} on Amazon`}
+          onClick={() => item.amazon && window.open(item.amazon, '_blank')}
+          type="button"
+        >
+          <span className="icon-btn__back"></span>
           <span className="icon-btn__front">
             <span className="icon-btn__icon" aria-hidden="true">
-              {item.icon}
+              <img src={item.cover} alt={item.title} />
             </span>
           </span>
-          <span className="icon-btn__label">{item.label}</span>
+          <span className="icon-btn__label gold-foil-text">{item.title}</span>
         </button>
       ))}
     </div>

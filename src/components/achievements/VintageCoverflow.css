@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════
+   VINTAGE COVERFLOW
+═══════════════════════════════════════ */
+
+.coverflow-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px; /* Strong 3D perspective */
+  margin: 0 auto;
+  overflow: hidden;
+  touch-action: pan-y; /* Allow vertical scroll, hijack horizontal swipe */
+}
+
+/* ─── The Polaroid Card ─── */
+.vintage-frame {
+  position: absolute;
+  width: 300px;
+  height: 420px;
+  background: linear-gradient(135deg, #fdf6e3, #ebdcaa);
+  padding: 16px 16px 70px 16px; /* Thick bottom border for text (Polaroid style) */
+  box-shadow: 
+    0 15px 35px rgba(44, 26, 14, 0.4),
+    inset 0 0 0 1px rgba(184, 150, 12, 0.3),
+    inset 0 0 40px rgba(139, 94, 60, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  
+  /* Texture alias */
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(139,94,60,0.03) 24px, rgba(139,94,60,0.03) 25px);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+
+/* Image Inside */
+.vintage-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+  /* The filter will be animated by framer-motion, but define base transition */
+  transition: all 0.5s ease;
+}
+
+/* Title Label at the bottom */
+.frame-label {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 600;
+  color: #2c1a0e;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  pointer-events: none;
+}
+
+/* Swipe Controls Hint */
+.swipe-hint {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: #7a5c3e;
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .vintage-frame {
+    width: 240px;
+    height: 350px;
+    padding: 12px 12px 50px 12px;
+  }
+  .frame-label {
+    bottom: 15px;
+    font-size: 1.2rem;
+  }
+}
