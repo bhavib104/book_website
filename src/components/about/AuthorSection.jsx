@@ -20,17 +20,18 @@ function AuthorSection() {
     <section
       style={{
         width: "100%",
-        minHeight: "100vh",
+        minHeight: isMobile ? "auto" : "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: "120px 5%",
+        padding: isMobile ? "80px 20px" : "120px 5%",
         background: `
           radial-gradient(ellipse at 15% 50%, rgba(196,168,130,0.18) 0%, transparent 55%),
           radial-gradient(ellipse at 85% 25%, rgba(184,150,12,0.1) 0%, transparent 45%),
           linear-gradient(160deg, #fdf6e3 0%, #f0e0be 45%, #e4d0a5 100%)
         `,
         position: "relative",
+        overflow: "hidden"
       }}
     >
 
@@ -49,10 +50,10 @@ function AuthorSection() {
       <div 
         style={{
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: isMobile ? "60px" : "80px",
-          flexWrap: "wrap",
+          gap: isMobile ? "40px" : "80px",
           width: "100%",
           maxWidth: "1200px",
           position: "relative"
@@ -62,8 +63,8 @@ function AuthorSection() {
         <motion.div
            initial={{ x: cardStart, opacity: 0 }}
            whileInView={{ x: 0, opacity: 1 }}
-           viewport={{ once: false, amount: 0.3 }}
-           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+           viewport={{ once: true, amount: 0.1 }}
+           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
            style={{ zIndex: 10, position: "relative" }}
         >
           <ProfileCard
@@ -83,36 +84,40 @@ function AuthorSection() {
 
         {/* About Text — Slides out from behind the Profile Card to the Right */}
         <motion.div 
-           initial={{ x: textStart, opacity: isMobile ? 0 : 0, filter: "blur(5px)" }}
+           initial={{ x: textStart, opacity: 0, filter: "blur(5px)" }}
            whileInView={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-           viewport={{ once: false, amount: 0.3 }}
-           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1], delay: isMobile ? 0 : 0.3 }}
-           style={{ maxWidth: "520px", zIndex: 5, position: "relative" }}
+           viewport={{ once: true, amount: 0.1 }}
+           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: isMobile ? 0.2 : 0.3 }}
+           style={{ 
+             maxWidth: "520px", 
+             zIndex: 5, 
+             position: "relative",
+             textAlign: isMobile ? "center" : "left"
+           }}
         >
 
           {/* Ornamental rule */}
           <div style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: isMobile ? "center" : "flex-start",
             gap: "14px",
             marginBottom: "28px",
             color: "#b8960c",
           }}>
             <span style={{ fontSize: "1.4rem" }}>❧</span>
             <span style={{
-              flex: 1,
+              width: isMobile ? "100px" : "100%",
+              flex: isMobile ? "none" : 1,
               height: "1px",
               background: "linear-gradient(to right, #b8960c, transparent)"
             }} />
           </div>
 
-          <h2 className="gold-foil-text" style={{
-            fontFamily: "'Playfair Display', serif",
+          <h2 className="gold-foil-text cinematic-heading" style={{
             fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
             fontStyle: "italic",
-            color: "#1a0e06",
-            marginBottom: "8px",
-            letterSpacing: "0.02em",
+            marginBottom: "12px",
             lineHeight: 1.2,
           }}>
             About the Author
@@ -136,8 +141,10 @@ function AuthorSection() {
             lineHeight: 1.8,
             color: "#5c3d22",
             fontStyle: "italic",
-            borderLeft: "3px solid rgba(184,150,12,0.5)",
-            paddingLeft: "20px",
+            borderLeft: isMobile ? "none" : "3px solid rgba(184,150,12,0.5)",
+            borderTop: isMobile ? "1px solid rgba(184,150,12,0.3)" : "none",
+            paddingLeft: isMobile ? "0" : "20px",
+            paddingTop: isMobile ? "20px" : "0",
             margin: "0",
           }}>
             "Through her books she inspires readers with meaningful storytelling
@@ -148,6 +155,7 @@ function AuthorSection() {
           <div style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
             gap: "14px",
             marginTop: "32px",
             color: "#b8960c",
