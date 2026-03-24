@@ -15,7 +15,7 @@ function FloatingPen() {
   const springY = useSpring(mouseY, { stiffness: 500, damping: 28 });
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => setIsMobile(window.innerWidth < 480);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     
@@ -41,22 +41,25 @@ function FloatingPen() {
     };
   }, [mouseX, mouseY]);
 
-  // Fade in after the user has scrolled past the dome gallery (approx 400px)
-  const opacity = useTransform(scrollY, [0, 400, 700], [0, 0, 1]);
+  // Fade in quickly at the start
+  const opacity = useTransform(scrollY, [0, 100], [0, 1]);
 
   useEffect(() => {
-    return scrollY.onChange((latest) => {
-      if (latest > 400 && !isMobile) {
+    const updateCursor = (latest) => {
+      // Hide real cursor when pen is visible
+      if (latest > 50 && !isMobile) {
         document.body.style.cursor = "none";
       } else {
         document.body.style.cursor = "auto";
       }
-    });
+    };
+    
+    const unsubscribe = scrollY.on("change", updateCursor);
+    return () => {
+      unsubscribe();
+      document.body.style.cursor = "auto";
+    };
   }, [scrollY, isMobile]);
-
-  useEffect(() => {
-    return () => { document.body.style.cursor = "auto"; };
-  }, []);
 
   if (isMobile) return null;
 
