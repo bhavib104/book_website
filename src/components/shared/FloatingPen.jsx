@@ -100,15 +100,15 @@ function FloatingPen() {
           x: springX,
           y: springY,
           marginLeft: "-5px",
-          marginTop: "-105px", 
+          marginTop: "-70px", 
           rotate: -15, 
           filter: "drop-shadow(6px 12px 10px rgba(44,26,14,0.4))"
         }}
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
-          width="110" 
-          height="110" 
+          width="75" 
+          height="75" 
           viewBox="0 0 24 24" 
           fill="none" 
           stroke="#1a0e06" 
