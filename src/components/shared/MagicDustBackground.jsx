@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-function DustParticles({ count = 3500 }) {
+function DustParticles({ count = 1200 }) {
   const points = useRef();
 
   // Generate a random spherical distribution of dust points
